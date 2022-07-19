@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import AgoraUIKit, { PropsInterface } from "agora-react-uikit";
 
-function App() {
+const App: React.FunctionComponent = () => {
+  const [videocall, setVideocall] = useState(true);
+  const props: PropsInterface = {
+    rtcProps: {
+      appId: "b081d208169b49b1bab93211a13ab06d",
+      channel: "main",
+      token:
+        "006b081d208169b49b1bab93211a13ab06dIABtupIO3nm9XOYQvmBgChfJz2qyDxOscFLdh7i3V0tudGTNKL8AAAAAEACkKU4ChrbXYgEAAQCFttdi", // pass in channel token if the app is in secure mode
+    },
+    callbacks: {
+      EndCall: () => setVideocall(false),
+    },
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={styles.container}>
+      {videocall ? (
+        <AgoraUIKit rtcProps={props.rtcProps} callbacks={props.callbacks} />
+      ) : null}
     </div>
   );
-}
+};
+
+const styles = {
+  container: { width: "100vw", height: "100vh", display: "flex", flex: 1 },
+};
 
 export default App;
